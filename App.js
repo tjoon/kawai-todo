@@ -4,9 +4,9 @@ import {
   Text,
   View,
   StatusBar,
+  TextInput,
   Dimensions,
   Platform,
-  TextInput,
   ScrollView
 } from "react-native";
 import ToDo from "./ToDo";
@@ -28,19 +28,19 @@ export default class App extends React.Component {
             style={styles.input}
             placeholder={"New To Do"}
             value={newToDo}
-            onChangeText={this._controlNewToDo}
+            onChangeText={this._crontollNewToDo}
             placeholderTextColor={"#999"}
             returnKeyType={"done"}
             autoCorrect={false}
           />
           <ScrollView contentContainerStyle={styles.toDos}>
-            <ToDo />
+            <ToDo text={"Hello I'm a To Do"} />
           </ScrollView>
         </View>
       </View>
     );
   }
-  _controlNewToDo = text => {
+  _crontollNewToDo = text => {
     this.setState({
       newToDo: text
     });
@@ -50,7 +50,7 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f23657",
+    backgroundColor: "#F23657",
     alignItems: "center"
   },
   title: {
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 10,
     ...Platform.select({
       ios: {
-        shadowColor: "rgb(50, 50,50)",
+        shadowColor: "rgb(50, 50, 50)",
         shadowOpacity: 0.5,
         shadowRadius: 5,
         shadowOffset: {
