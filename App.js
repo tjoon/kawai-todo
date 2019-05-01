@@ -66,10 +66,14 @@ export default class App extends React.Component {
       newToDo: text
     });
   };
-  _loadToDos = () => {
-    this.setState({
-      loadedToDos: true
-    });
+  _loadToDos = async () => {
+    try {
+      const toDos = await AsyncStorage.getItem("toDos");
+      const parsedToDos = JSON.parse(toDos);
+      this.setState({ loadedToDos: true, toDos: parsedToDos });
+    } catch (err) {
+      console.log(err);
+    }
   };
   _addToDo = () => {
     const { newToDo } = this.state;
@@ -78,18 +82,18 @@ export default class App extends React.Component {
         const ID = uuidv1();
         const newToDoObject = {
           [ID]: {
+            createdAt: Date.now(),
             id: ID,
             isCompleted: false,
-            text: newToDo,
-            createdAt: Date.now()
+            text: newToDo
           }
         };
         const newState = {
           ...prevState,
           newToDo: "",
           toDos: {
-            ...prevState.toDos,
-            ...newToDoObject
+            ...newToDoObject,
+            ...prevState.toDos
           }
         };
         this._saveToDos(newState.toDos);
@@ -152,7 +156,6 @@ export default class App extends React.Component {
     });
   };
   _saveToDos = newToDos => {
-    //console.log(JSON.stringify(newToDos));
     const saveToDos = AsyncStorage.setItem("toDos", JSON.stringify(newToDos));
   };
 }
